@@ -1,15 +1,43 @@
 <template>
-  <v-row>
-    <v-col class="text-center">
-      <img src="/v.png" alt="Vuetify.js" class="mb-5" />
-      <blockquote class="blockquote">
-        &#8220;First, solve the problem. Then, write the code.&#8221;
-        <footer>
-          <small>
-            <em>&mdash;John Johnson</em>
-          </small>
-        </footer>
-      </blockquote>
-    </v-col>
-  </v-row>
+  <h1>Scaffold</h1>
 </template>
+
+<script lang="ts">
+import { Component, Prop, Vue } from 'nuxt-property-decorator';
+
+@Component({
+  components: {},
+})
+export default class Inspire extends Vue {
+  /*********************************************************************************
+   * Prop & Variable & computed
+   * ******************************************************************************/
+  @Prop({ type: String, default: '' }) value!: string;
+  /*********************************************************************************
+   * Store
+   * ******************************************************************************/
+  // get email() {
+  //   return this.$accessor.email;
+  // }
+  //
+  // setEmail() {
+  //   this.$accessor.setEmail('testEmail');
+  // }
+  //
+  // setName() {
+  //   this.$accessor.submodule.setName('juicyjusung');
+  // }
+  /*********************************************************************************
+   * Emit
+   * ******************************************************************************/
+  /*********************************************************************************
+   * Life Cycles
+   * ******************************************************************************/
+  created() {}
+  /*********************************************************************************
+   * Methods
+   * ******************************************************************************/
+}
+</script>
+
+<!--<style lang="scss" scoped></style>-->
