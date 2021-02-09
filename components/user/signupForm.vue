@@ -39,7 +39,7 @@ import { Component, Vue } from 'nuxt-property-decorator';
 import { ValidationObserver, ValidationProvider, setInteractionMode } from 'vee-validate';
 import { UserSignupForm } from '~/models/user/user';
 import { notifySuccess } from '~/utils/notify';
-import { userStore } from '~/utils/store-accessor';
+import { userModule } from '~/utils/store-accessor';
 setInteractionMode('eager');
 
 @Component({
@@ -60,7 +60,7 @@ export default class SignupForm extends Vue {
   async submit() {
     const validation = await this.observer.validate();
     if (validation) {
-      const user = await userStore.signup(this.user);
+      const user = await userModule.signup(this.user);
       if (user) {
         await this.$router.push('/login');
         notifySuccess('Signup success!');

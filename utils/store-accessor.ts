@@ -3,10 +3,10 @@ import { getModule } from 'vuex-module-decorators';
 import UserModule from '~/store/userModule';
 
 /* eslint-disable */
-let userStore: UserModule;
+let userModule: UserModule;
 
 function initialiseStores(store: Store<any>): void {
-  userStore = getModule(UserModule, store);
+  userModule = getModule(UserModule, store);
 }
 
-export { initialiseStores, userStore };
+export { initialiseStores, userModule };

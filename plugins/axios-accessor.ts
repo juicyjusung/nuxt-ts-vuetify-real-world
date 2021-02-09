@@ -3,7 +3,7 @@ import { Context, Plugin } from '@nuxt/types';
 import { ErrorType } from '~/constants';
 import { initializeAxios } from '~/utils/axios';
 import { notifyErrors, notifyWarn } from '~/utils/notify';
-import { userStore } from '~/utils/store-accessor';
+import { userModule } from '~/utils/store-accessor';
 
 const accessor: Plugin = ({ $axios, redirect, app }: Context) => {
   $axios.defaults.headers.get.Accepts = 'application/json';
@@ -32,7 +32,7 @@ const accessor: Plugin = ({ $axios, redirect, app }: Context) => {
 
     switch (httpStatus) {
       case ErrorType.Unauthorized:
-        userStore.setUser(null);
+        userModule.setUser(null);
         redirect('/login');
         notifyWarn('You are not logged in');
         break;

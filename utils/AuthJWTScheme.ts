@@ -1,7 +1,7 @@
 import { HTTPRequest, HTTPResponse } from '@nuxtjs/auth-next';
 import { LocalScheme } from '@nuxtjs/auth-next/dist/runtime';
 import { UserModel } from '~/models/user/user';
-import { userStore } from '~/store';
+import { userModule } from '~/store';
 
 export default class AuthJWTScheme extends LocalScheme {
   async login(endpoint: HTTPRequest): Promise<any> {
@@ -21,7 +21,7 @@ export default class AuthJWTScheme extends LocalScheme {
 
     if (!this.options.endpoints.user) {
       this.$auth.setUser({});
-      userStore.setUser(null);
+      userModule.setUser(null);
       return;
     }
 
@@ -29,7 +29,7 @@ export default class AuthJWTScheme extends LocalScheme {
       const res = await this.$auth.requestWith(this.name, endpoint, this.options.endpoints.user);
       const user = new UserModel(res.data.user);
       this.$auth.setUser(user);
-      userStore.setUser(user);
+      userModule.setUser(user);
       return res;
     } catch (error) {
       this.$auth.callOnError(error, { method: 'fetchUser' });
@@ -39,7 +39,7 @@ export default class AuthJWTScheme extends LocalScheme {
   async logout(endpoint?: HTTPRequest): Promise<void> {
     return new Promise(resolve => {
       this.$auth.reset();
-      userStore.setUser(null);
+      userModule.setUser(null);
       resolve();
     });
   }

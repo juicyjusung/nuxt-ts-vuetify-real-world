@@ -14,7 +14,6 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator';
 import SignupForm from '~/components/user/signupForm.vue';
-import { userStore } from '~/utils/store-accessor';
 
 @Component({
   components: { SignupForm },

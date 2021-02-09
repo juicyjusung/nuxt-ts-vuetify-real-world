@@ -6,8 +6,6 @@
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator';
-import { UserModel } from '~/models/user/user';
-import { userStore } from '~/store';
 
 @Component({
   components: {},
