@@ -48,6 +48,7 @@ const accessor: Plugin = ({ $axios, redirect, app }: Context) => {
         );
         break;
       case ErrorType.NotFound:
+        console.log('%c [JL] not found - ', 'font-size: 13px; color:  orange;');
         notifyErrors(
           errorMessage?.length > 0 && !isUnknownError
             ? errorMessage
@@ -60,9 +61,9 @@ const accessor: Plugin = ({ $axios, redirect, app }: Context) => {
             ? errorMessage
             : ['Unknown error occurred, please try again later.']
         );
-        break;
+        return Promise.reject(errorMessage);
     }
-    return Promise.reject(errorMessage);
+    return Promise.resolve();
   });
   initializeAxios($axios);
 };

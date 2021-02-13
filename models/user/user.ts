@@ -1,17 +1,7 @@
 import { plainToClass } from 'class-transformer';
 import { ReqSignup, ReqUserLogin } from '~/store/userModule';
 
-export interface User {
-  email: string;
-  token: string;
-  username: string;
-  bio: string;
-  image: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export class UserModel implements User {
+export class User {
   email: string = '';
   token: string = '';
   username: string = '';
@@ -22,7 +12,7 @@ export class UserModel implements User {
 
   constructor(init?: Partial<User>) {
     if (init) {
-      Object.assign(this, plainToClass(UserModel, init));
+      Object.assign(this, plainToClass(User, init));
     }
   }
 }

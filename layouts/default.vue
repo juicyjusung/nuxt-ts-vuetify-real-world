@@ -15,7 +15,12 @@
         </nuxt-link>
       </div>
       <div v-else>
-        <juicy-btn label="new article" icon="mdi-pencil-plus" icon-pos="left"></juicy-btn>
+        <juicy-btn
+          label="new article"
+          icon="mdi-pencil-plus"
+          icon-pos="left"
+          @click="newArticleDialog = true"
+        ></juicy-btn>
         <v-menu open-on-hover bottom offset-y>
           <template #activator="{ on, attrs }">
             <v-btn color="primary" v-bind="attrs" v-on="on">
@@ -39,6 +44,7 @@
     <v-main>
       <nuxt />
     </v-main>
+    <article-dialog :activate="newArticleDialog" @close="newArticleDialog = false" />
   </v-app>
 </template>
 
@@ -54,14 +60,14 @@ import { notifySuccess } from '~/utils/notify';
   },
 })
 export default class DefaultLayout extends Vue {
+  newArticleDialog = false;
+
   items = [
     { title: 'settings', icon: 'mdi-account-settings', onClick: this.onClickSettings },
     { title: 'logout', icon: 'mdi-logout', onClick: this.onClickLogout },
   ];
 
-  async onClickSettings() {
-    console.log('%c [JL] onClickSettings - settings', 'font-size: 13px; color:  orange;');
-  }
+  async onClickSettings() {}
 
   async onClickLogout() {
     await this.$auth.logout();

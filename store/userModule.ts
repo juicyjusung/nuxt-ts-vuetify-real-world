@@ -1,5 +1,5 @@
 import { Action, Module, Mutation, MutationAction, VuexModule } from 'vuex-module-decorators';
-import { User, UserModel } from '~/models/user/user';
+import { User } from '~/models/user/user';
 import { ResponseType } from '~/types';
 import { $axios } from '~/utils/axios';
 
@@ -14,10 +14,10 @@ type UserResponse = ResponseType<'user', User>;
   preserveState: true,
 })
 export default class UserModule extends VuexModule {
-  user: UserModel | null = null;
+  user: User | null = null;
 
   @Mutation
-  setUser(user: UserModel | null) {
+  setUser(user: User | null) {
     this.user = user;
   }
 

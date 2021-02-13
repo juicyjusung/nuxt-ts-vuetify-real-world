@@ -1,7 +1,8 @@
-import { userModule } from '~/store';
+import { userModule, articleModule } from '~/store';
 
 interface Store {
   userModule: typeof userModule;
+  articleModule: typeof articleModule;
 }
 
 declare module 'vue/types/vue' {

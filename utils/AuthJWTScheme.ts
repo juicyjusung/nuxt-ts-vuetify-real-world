@@ -1,6 +1,6 @@
 import { HTTPRequest, HTTPResponse } from '@nuxtjs/auth-next';
 import { LocalScheme } from '@nuxtjs/auth-next/dist/runtime';
-import { UserModel } from '~/models/user/user';
+import { User } from '~/models/user/user';
 import { userModule } from '~/store';
 
 export default class AuthJWTScheme extends LocalScheme {
@@ -27,7 +27,7 @@ export default class AuthJWTScheme extends LocalScheme {
 
     try {
       const res = await this.$auth.requestWith(this.name, endpoint, this.options.endpoints.user);
-      const user = new UserModel(res.data.user);
+      const user = new User(res.data.user);
       this.$auth.setUser(user);
       userModule.setUser(user);
       return res;
