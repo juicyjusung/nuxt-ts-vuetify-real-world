@@ -3,7 +3,7 @@
     <form @submit.prevent="login">
       <validation-provider v-slot="{ errors }" name="email" rules="required|email">
         <v-text-field
-          v-model="userLoginObj.email"
+          v-model="user.email"
           :error-messages="errors"
           label="E-mail"
           required
@@ -12,7 +12,7 @@
       <!-- password -->
       <validation-provider v-slot="{ errors }" name="Password" rules="required|min:8">
         <v-text-field
-          v-model="userLoginObj.password"
+          v-model="user.password"
           :error-messages="errors"
           label="Password"
           required
@@ -29,17 +29,17 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator';
 import { ValidationObserver, ValidationProvider, setInteractionMode } from 'vee-validate';
-import { UserRegisterForm } from '~/entity/user';
 import { UserLoginForm } from '~/models/user/user';
 import { notifySuccess } from '~/utils/notify';
+import JuicyBtn from '~/components/common/JuicyBtn.vue';
 setInteractionMode('eager');
 
 @Component({
-  components: { ValidationProvider, ValidationObserver },
+  components: { ValidationProvider, ValidationObserver, JuicyBtn },
   layout: 'empty',
 })
 export default class LoginForm extends Vue {
-  userLoginObj = new UserLoginForm();
+  user = new UserLoginForm();
   observer: any = null;
 
   /*********************************************************************************
@@ -47,8 +47,6 @@ export default class LoginForm extends Vue {
    * ******************************************************************************/
   mounted() {
     this.observer = this.$refs.observer as object;
-    this.userLoginObj.email = 'juicyjusung2@gmail.com';
-    this.userLoginObj.password = 'juicyjusung2';
   }
 
   /*********************************************************************************
@@ -57,7 +55,7 @@ export default class LoginForm extends Vue {
   async login() {
     const validation = await this.observer.validate();
     if (validation) {
-      const res = await this.$auth.loginWith('jwtStrategy', { data: { user: this.userLoginObj } });
+      const res = await this.$auth.loginWith('jwtStrategy', { data: { user: this.user } });
       if (res) {
         notifySuccess('Logged In!');
         return await this.$router.push('/');
@@ -66,7 +64,7 @@ export default class LoginForm extends Vue {
   }
 
   clear() {
-    this.userLoginObj = new UserRegisterForm();
+    this.user = new UserLoginForm();
     this.observer.reset();
   }
 }

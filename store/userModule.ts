@@ -1,6 +1,6 @@
 import { Action, Module, Mutation, MutationAction, VuexModule } from 'vuex-module-decorators';
 import { User, UserModel } from '~/models/user/user';
-import { ResponseType, Todo } from '~/types';
+import { ResponseType } from '~/types';
 import { $axios } from '~/utils/axios';
 
 export type ReqUserLogin = Pick<User, 'email'> & { password: string };

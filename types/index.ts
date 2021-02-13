@@ -6,25 +6,12 @@ export interface User {
   updatedOn: string;
 }
 
-export interface Todo {
-  title: string;
-  desc: string;
-  author: string;
-  id: string;
-  status: boolean;
-  createdOn?: string;
-  updatedOn?: string;
-}
-
-export interface NotificationOption {
-  title?: string;
-  text?: string;
-  type?: string;
-  group?: string;
-  duration?: number;
-  speed?: number;
-  data?: object;
-  clean?: boolean;
+export interface AriticleOptions {
+  tag?: string;
+  author?: string;
+  favorited?: string;
+  limit?: number;
+  offset?: number;
 }
 
 export type ResponseType<K extends string, V> = Promise<{ [P in K]: V }>;

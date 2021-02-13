@@ -10,9 +10,10 @@
 import { Component, Prop, Vue } from 'nuxt-property-decorator';
 
 @Component({
+  name: 'JuicyBtn',
   components: {},
 })
-export default class Home extends Vue {
+export default class JuicyBtn extends Vue {
   @Prop(String) color!: string;
   @Prop(String) iconPos!: 'left' | 'right';
   @Prop(String) icon!: string;
