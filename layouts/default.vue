@@ -44,7 +44,7 @@
     <v-main>
       <nuxt />
     </v-main>
-    <article-dialog :activate="newArticleDialog" @close="newArticleDialog = false" />
+    <editor-dialog :activate="newArticleDialog" @close="newArticleDialog = false" />
   </v-app>
 </template>
 

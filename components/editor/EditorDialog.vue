@@ -63,14 +63,14 @@ import { articleModule } from '~/utils/store-accessor';
     mode: 'out-in',
   },
 })
-export default class ArticleDialog extends Vue {
+export default class EditorDialog extends Vue {
   @Prop(Boolean) activate!: boolean;
 
   article = new Article();
-  observer: any = null;
 
   async onPublishArticle() {
-    const validation = await this.$refs.observer.validate();
+    const observer = this.$refs.observer as InstanceType<typeof ValidationObserver>;
+    const validation = await observer.validate();
     if (validation) {
       const article = await articleModule.createArticle(this.article.getCreateArticleRequest());
       if (article instanceof Article) {
@@ -87,6 +87,8 @@ export default class ArticleDialog extends Vue {
 
   onCancel() {
     this.article = new Article();
+    const observer = this.$refs.observer as InstanceType<typeof ValidationObserver>;
+    observer.reset();
     this.closeDialog();
   }
 
