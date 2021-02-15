@@ -42,6 +42,16 @@ export default class ArticleModule extends VuexModule {
     this.articleList.unshift(article);
   }
 
+  @Mutation
+  updateArticleInArticleList(updatedArticle: Article) {
+    const index = this.articleList.findIndex(article => article.slug === updatedArticle.slug);
+    this.articleList = [
+      ...this.articleList.slice(0, index),
+      updatedArticle,
+      ...this.articleList.slice(index + 1, articleModule.articleList.length),
+    ];
+  }
+
   @Action({ rawError: true })
   async createArticle(payload: CreateArticleRequest): Promise<Article | boolean> {
     const res = await $axios.post('/articles', { article: payload });
@@ -60,13 +70,13 @@ export default class ArticleModule extends VuexModule {
   }
 
   @Action({ rawError: true })
-  async getArticle(request: GetArticleRequest): Promise<void> {
+  async getArticle(request: GetArticleRequest): Promise<Article> {
     const res = await $axios.get(`/articles/${request.slug}`);
     return res?.data?.article && new Article(res?.data?.article);
   }
 
   @MutationAction({ mutate: ['articleList', 'articleCount', 'articleOffset'] })
-  async getArticleList(request: ArticleListRequest) {
+  async getArticleList(request?: ArticleListRequest) {
     const {
       articleList: prevArticleList,
       articleCount: prevArticleCount,
@@ -93,5 +103,21 @@ export default class ArticleModule extends VuexModule {
       articleCount,
       articleOffset: articleList.length,
     };
+  }
+
+  @Action({ rawError: true })
+  async favoriteArticle(slug: string): Promise<void> {
+    const res = await $axios.post(`/articles/${slug}/favorite`);
+    if (res?.data?.article) {
+      this.updateArticleInArticleList(new Article(res.data.article));
+    }
+  }
+
+  @Action({ rawError: true })
+  async cancelFavoriteArticle(slug: string): Promise<void> {
+    const res = await $axios.delete(`/articles/${slug}/favorite`);
+    if (res?.data?.article) {
+      this.updateArticleInArticleList(new Article(res.data.article));
+    }
   }
 }
