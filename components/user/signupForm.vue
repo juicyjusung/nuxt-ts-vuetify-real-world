@@ -48,17 +48,10 @@ setInteractionMode('eager');
 })
 export default class SignupForm extends Vue {
   user = new UserSignupForm();
-  observer: any = null;
 
-  mounted() {
-    this.observer = this.$refs.observer as object;
-  }
-
-  /*********************************************************************************
-   * Methods
-   * ******************************************************************************/
   async submit() {
-    const validation = await this.observer.validate();
+    const observer = this.$refs.observer as InstanceType<typeof ValidationObserver>;
+    const validation = await observer.validate();
     if (validation) {
       const user = await userModule.signup(this.user);
       if (user) {

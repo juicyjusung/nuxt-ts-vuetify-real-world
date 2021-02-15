@@ -40,20 +40,10 @@ setInteractionMode('eager');
 })
 export default class LoginForm extends Vue {
   user = new UserLoginForm();
-  observer: any = null;
 
-  /*********************************************************************************
-   * Life Cycles
-   * ******************************************************************************/
-  mounted() {
-    this.observer = this.$refs.observer as object;
-  }
-
-  /*********************************************************************************
-   * Methods
-   * ******************************************************************************/
   async login() {
-    const validation = await this.observer.validate();
+    const observer = this.$refs.observer as InstanceType<typeof ValidationObserver>;
+    const validation = await observer.validate();
     if (validation) {
       const res = await this.$auth.loginWith('jwtStrategy', { data: { user: this.user } });
       if (res) {
@@ -65,7 +55,7 @@ export default class LoginForm extends Vue {
 
   clear() {
     this.user = new UserLoginForm();
-    this.observer.reset();
+    (this.$refs.observer as InstanceType<typeof ValidationObserver>).reset();
   }
 }
 </script>
