@@ -2,19 +2,14 @@
   <v-container>
     <juicy-content>
       <template #main>
-        <article-list :article-list="$accessor.articleModule.articleList" />
+        <article-list
+          :article-list="$accessor.articleModule.articleList"
+          @fetch="fetchArticleList"
+        />
         <article-loading v-if="loading" />
       </template>
       <template #sider>
-        <v-card>
-          <v-card-title>tags</v-card-title>
-          <v-card-text>
-            <v-chip class="ma-1">hi</v-chip>
-            <v-chip class="ma-1">hi</v-chip>
-            <v-chip class="ma-1">hi</v-chip>
-            <v-chip class="ma-1">hi</v-chip>
-          </v-card-text>
-        </v-card>
+        <tags-card :tags="tags" />
       </template>
     </juicy-content>
     <v-fab-transition>
@@ -32,54 +27,40 @@
         <v-icon>mdi-chevron-up</v-icon>
       </v-btn>
     </v-fab-transition>
-
-    <div id="scroll-observer" ref="scrollObserver" />
   </v-container>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator';
-import { articleModule } from '~/utils/store-accessor';
+import { notifyErrors } from '~/utils/notify';
+import { articleModule, tagModule } from '~/utils/store-accessor';
 
 @Component({
   components: {},
   auth: 'guest',
-  async asyncData() {},
 })
 export default class Home extends Vue {
-  loading = false;
   observer = null;
-  async created() {
-    await this.fetchArticleList();
-    // this.initIntersectionObserver();
+  loading = false;
+  tags = [];
+  async asyncData(): Promise<void | object> {
+    return {
+      tags: await tagModule.getTags(),
+    };
   }
 
-  mounted() {}
-
-  // initIntersectionObserver() {
-  //   const io = new IntersectionObserver(
-  //     (entries, observer) => {
-  //       entries.forEach(entry => {
-  //         if (entry.isIntersecting) {
-  //           this.fetchArticleList();
-  //         }
-  //       });
-  //     },
-  //     {
-  //       rootMargin: '0px 0px 400px 0px',
-  //     }
-  //   );
-  //
-  //   io.observe(this.$refs.scrollObserver);
-  // }
-
-  async update() {
+  async created() {
     await this.fetchArticleList();
   }
 
   async fetchArticleList() {
     this.loading = true;
-    await articleModule.getArticleList();
+    try {
+      await articleModule.getArticleList();
+    } catch (e) {
+      notifyErrors(e.message);
+    }
+
     this.loading = false;
   }
 

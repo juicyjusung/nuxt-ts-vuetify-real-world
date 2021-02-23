@@ -29,7 +29,7 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator';
 import { ValidationObserver, ValidationProvider, setInteractionMode } from 'vee-validate';
-import { UserLoginForm } from '~/models/user/user';
+import { UserLoginForm } from '~/models/user/user-login';
 import { notifySuccess } from '~/utils/notify';
 import JuicyBtn from '~/components/common/JuicyBtn.vue';
 setInteractionMode('eager');

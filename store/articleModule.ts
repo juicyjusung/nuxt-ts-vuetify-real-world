@@ -1,15 +1,16 @@
-import { Action, Module, Mutation, MutationAction, VuexModule } from 'vuex-module-decorators';
-import { Article } from '~/models/article/article';
-import { Tag } from '~/models/article/tag';
-import { Author } from '~/models/user/author';
-import { OptionalPick, ResponseType } from '~/types/index';
+import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators';
+import { ApiArticle, ReqArticleList } from '~/api/article';
+import { Article, isArticle } from '~/models/article';
+import { isArrayOf, OptionalPick } from '~/types/index';
 import { $axios } from '~/utils/axios';
+import { notifyErrors } from '~/utils/notify';
 import { articleModule } from '~/utils/store-accessor';
 
-export type CreateArticleRequest = Pick<Article, 'title' | 'description' | 'body'> &
+export type ReqCreateArticle = Pick<Article, 'title' | 'description' | 'body'> &
   OptionalPick<Article, 'tagList'>;
-type Slug = Article['slug'];
-export type UpdateArticlePayload = Partial<CreateArticleRequest>;
+
+export type Slug = Article['slug'];
+export type UpdateArticlePayload = Partial<ReqCreateArticle>;
 export type UpdateArticleRequest = {
   payload: UpdateArticlePayload;
   slug: Slug;
@@ -17,15 +18,6 @@ export type UpdateArticleRequest = {
 export type GetArticleRequest = {
   slug: Slug;
 };
-export interface ArticleListRequest {
-  tag?: Tag;
-  author?: Author['username'];
-  favorited?: Author['username'];
-  limit?: number;
-  offset?: number;
-}
-
-type ArticleResponse = ResponseType<'article', Article>;
 
 @Module({
   name: 'articleModule',
@@ -36,6 +28,11 @@ export default class ArticleModule extends VuexModule {
   articleList: Article[] = [];
   articleOffset: number = 0;
   articleCount: number = 0;
+
+  @Mutation
+  setArticleList(articleList: Article[]) {
+    this.articleList = articleList;
+  }
 
   @Mutation
   unshiftArticle(article: Article) {
@@ -53,14 +50,39 @@ export default class ArticleModule extends VuexModule {
   }
 
   @Action({ rawError: true })
-  async createArticle(payload: CreateArticleRequest): Promise<Article | boolean> {
-    const res = await $axios.post('/articles', { article: payload });
-    const article: Article = res?.data?.article && new Article(res?.data?.article);
-    if (!article) {
-      return false;
+  async getArticleList(request?: ReqArticleList) {
+    const prevSlugs = this.articleList.map(article => article.slug);
+    const { articles } = await ApiArticle.getArticleList({
+      offset: this.articleOffset || 0,
+      limit: 20,
+      ...request,
+    });
+    if (isArrayOf<Article>(articles, isArticle)) {
+      const filtered = articles.filter(article => !prevSlugs.includes(article.slug));
+      this.setArticleList([...this.articleList, ...filtered]);
+      return;
     }
-    this.unshiftArticle(article);
-    return article;
+    throw new Error('no articles');
+  }
+
+  @Action({ rawError: true })
+  async createArticle(payload: ReqCreateArticle): Promise<Article | boolean> {
+    const { article } = await ApiArticle.createArticle(payload);
+    if (isArticle(article)) {
+      this.unshiftArticle(article);
+      return article;
+    }
+    return false;
+  }
+
+  @Action({ rawError: true })
+  async getArticle(slug: Slug): Promise<Article | null> {
+    const { article } = await ApiArticle.getArticle(slug);
+    if (isArticle(article)) {
+      return article;
+    }
+    notifyErrors('error');
+    return null;
   }
 
   @Action({ rawError: true })
@@ -70,54 +92,22 @@ export default class ArticleModule extends VuexModule {
   }
 
   @Action({ rawError: true })
-  async getArticle(request: GetArticleRequest): Promise<Article> {
-    const res = await $axios.get(`/articles/${request.slug}`);
-    return res?.data?.article && new Article(res?.data?.article);
-  }
-
-  @MutationAction({ mutate: ['articleList', 'articleCount', 'articleOffset'] })
-  async getArticleList(request?: ArticleListRequest) {
-    const {
-      articleList: prevArticleList,
-      articleCount: prevArticleCount,
-      articleOffset: prevArticleOffset,
-    } = articleModule;
-
-    const res = await $axios.get('/articles/', {
-      params: {
-        offset: prevArticleOffset || 0,
-        limit: 20,
-        ...request,
-      },
-    });
-
-    const prevSlugs = prevArticleList.map(article => article.slug);
-    const list: Article[] = res?.data?.articles.map((a: Article) => new Article(a));
-    const filtered = list.filter(article => !prevSlugs.includes(article.slug));
-
-    const articleList: Article[] = [...prevArticleList, ...filtered];
-    const articleCount = res?.data?.articlesCount;
-
-    return {
-      articleList,
-      articleCount,
-      articleOffset: articleList.length,
-    };
-  }
-
-  @Action({ rawError: true })
   async favoriteArticle(slug: string): Promise<void> {
-    const res = await $axios.post(`/articles/${slug}/favorite`);
-    if (res?.data?.article) {
-      this.updateArticleInArticleList(new Article(res.data.article));
+    const { article } = await ApiArticle.favoriteArticle(slug);
+    if (isArticle(article)) {
+      this.updateArticleInArticleList(article);
+      return;
     }
+    throw new Error('error');
   }
 
   @Action({ rawError: true })
-  async cancelFavoriteArticle(slug: string): Promise<void> {
-    const res = await $axios.delete(`/articles/${slug}/favorite`);
-    if (res?.data?.article) {
-      this.updateArticleInArticleList(new Article(res.data.article));
+  async cancelFavoriteArticle(slug: Slug): Promise<void> {
+    const { article } = await ApiArticle.cancelFavoriteArticle(slug);
+    if (isArticle(article)) {
+      this.updateArticleInArticleList(article);
+      return;
     }
+    throw new Error('error');
   }
 }

@@ -37,7 +37,7 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator';
 import { ValidationObserver, ValidationProvider, setInteractionMode } from 'vee-validate';
-import { UserSignupForm } from '~/models/user/user';
+import { UserSignupForm } from '~/models/user/user-signup';
 import { notifySuccess } from '~/utils/notify';
 import { userModule } from '~/utils/store-accessor';
 setInteractionMode('eager');
