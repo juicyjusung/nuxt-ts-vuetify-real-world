@@ -1,10 +1,10 @@
 import Vue from 'vue';
 
-export const notifyErrors = (errors: string[]): void => {
+export const notifyErrors = (errors: string[] | string): void => {
   Vue.notify({
     type: 'error',
     title: 'Error occurred',
-    text: errors.join('<br />'),
+    text: Array.isArray(errors) ? errors.join('<br />') : errors,
   });
 };
 
