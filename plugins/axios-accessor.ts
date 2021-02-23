@@ -11,7 +11,7 @@ const accessor: Plugin = ({ $axios, redirect, app }: Context) => {
 
   $axios.interceptors.response.use(
     response => {
-      return response;
+      return response.data;
     },
     error => {
       return Promise.reject(error);
@@ -48,7 +48,6 @@ const accessor: Plugin = ({ $axios, redirect, app }: Context) => {
         );
         break;
       case ErrorType.NotFound:
-        console.log('%c [JL] not found - ', 'font-size: 13px; color:  orange;');
         notifyErrors(
           errorMessage?.length > 0 && !isUnknownError
             ? errorMessage
