@@ -52,28 +52,24 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'nuxt-property-decorator';
 import { ValidationObserver, ValidationProvider } from 'vee-validate';
-import { Article } from '~/models/article/article';
+import { ArticleEditorData } from '~/models/article/article-editor';
 import { notifySuccess } from '~/utils/notify';
 import { articleModule } from '~/utils/store-accessor';
 
 @Component({
   components: { ValidationProvider, ValidationObserver },
-  transition: {
-    name: 'page',
-    mode: 'out-in',
-  },
 })
 export default class EditorDialog extends Vue {
   @Prop(Boolean) activate!: boolean;
 
-  article = new Article();
+  article = new ArticleEditorData();
 
   async onPublishArticle() {
     const observer = this.$refs.observer as InstanceType<typeof ValidationObserver>;
     const validation = await observer.validate();
     if (validation) {
-      const article = await articleModule.createArticle(this.article.getCreateArticleRequest());
-      if (article instanceof Article) {
+      const article = await articleModule.createArticle(this.article);
+      if (article) {
         notifySuccess('success');
         this.closeDialog();
       }
@@ -86,13 +82,13 @@ export default class EditorDialog extends Vue {
   }
 
   onCancel() {
-    this.article = new Article();
-    const observer = this.$refs.observer as InstanceType<typeof ValidationObserver>;
-    observer.reset();
     this.closeDialog();
   }
 
   closeDialog() {
+    this.article = new ArticleEditorData();
+    const observer = this.$refs.observer as InstanceType<typeof ValidationObserver>;
+    observer.reset();
     this.$emit('close');
   }
 }
