@@ -12,10 +12,6 @@ import { Component, Vue } from 'nuxt-property-decorator';
 
 @Component({
   components: {},
-  transition: {
-    name: 'page',
-    mode: 'out-in',
-  },
 })
 export default class Blank extends Vue {}
 </script>

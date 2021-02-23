@@ -3,27 +3,30 @@
     <client-only>
       <notifications position="bottom center" />
     </client-only>
-    <v-app-bar app class="px-10 justify-center align-center">
-      <nuxt-link to="/"> Home </nuxt-link>
+    <v-app-bar app class="px-1 px-sm-5 justify-center align-center">
+      <nuxt-link to="/">
+        <v-btn text small class="px-0">conduit</v-btn>
+      </nuxt-link>
       <v-spacer />
       <div v-if="!$accessor.userModule.user">
         <nuxt-link to="/login">
-          <juicy-btn label="Sign in" icon="mdi-account-arrow-left" />
+          <juicy-btn label="Sign in" icon="mdi-account-arrow-left" small />
         </nuxt-link>
         <nuxt-link to="/signup">
-          <juicy-btn label="Sign up" icon="mdi-account-plus-outline" />
+          <juicy-btn label="Sign up" icon="mdi-account-plus-outline" small />
         </nuxt-link>
       </div>
-      <div v-else>
+      <div v-else class="d-flex">
         <juicy-btn
           label="new article"
           icon="mdi-pencil-plus"
           icon-pos="left"
+          small
           @click="newArticleDialog = true"
         ></juicy-btn>
         <v-menu open-on-hover bottom offset-y>
           <template #activator="{ on, attrs }">
-            <v-btn color="primary" v-bind="attrs" v-on="on">
+            <v-btn color="primary" v-bind="attrs" small v-on="on">
               {{ $accessor.userModule.user.username }}
             </v-btn>
           </template>
@@ -54,10 +57,6 @@ import { notifySuccess } from '~/utils/notify';
 
 @Component({
   components: {},
-  transition: {
-    name: 'page',
-    mode: 'out-in',
-  },
 })
 export default class DefaultLayout extends Vue {
   newArticleDialog = false;
