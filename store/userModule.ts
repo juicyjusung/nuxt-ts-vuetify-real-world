@@ -1,11 +1,9 @@
-import { Action, Module, Mutation, MutationAction, VuexModule } from 'vuex-module-decorators';
-import { User } from '~/models/user/user';
-import { ResponseType } from '~/types';
+import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators';
+import { User } from '~/models/user';
 import { $axios } from '~/utils/axios';
 
 export type ReqUserLogin = Pick<User, 'email'> & { password: string };
 export type ReqSignup = Pick<User, 'email' | 'username'> & { password: string };
-type UserResponse = ResponseType<'user', User>;
 
 @Module({
   name: 'userModule',
