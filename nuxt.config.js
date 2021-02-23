@@ -30,6 +30,7 @@ export default {
     '@/plugins/axios-accessor.ts',
     '@/plugins/vee-validate.ts',
     '@/plugins/reflect-metadata.ts',
+    '@/plugins/filters.ts',
     { src: '@/plugins/vue-notification.ts', ssr: false },
   ],
 
