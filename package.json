@@ -27,7 +27,7 @@
     "@nuxt/typescript-runtime": "^2.0.1",
     "@nuxtjs/auth-next": "^5.0.0-1611574754.9020f2a",
     "@nuxtjs/axios": "^5.13.0",
-    "class-transformer": "^0.3.2",
+    "class-transformer": "^0.4.0",
     "core-js": "^3.8.3",
     "nuxt": "^2.14.12",
     "nuxt-property-decorator": "^2.9.1",
