@@ -1,17 +1,5 @@
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  createdOn: string;
-  updatedOn: string;
-}
-
-export interface AriticleOptions {
-  tag?: string;
-  author?: string;
-  favorited?: string;
-  limit?: number;
-  offset?: number;
+export function isArrayOf<T>(obj: unknown, is: (...args: any) => boolean): obj is T[] {
+  return Array.isArray(obj) && obj.every(is);
 }
 
 export type ResponseType<K extends string, V> = Promise<{ [P in K]: V }>;
