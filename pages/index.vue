@@ -58,7 +58,9 @@ export default class Home extends Vue {
     this.selectedTag = tag;
     this.$router.push({
       path: `/tag/${tag}`,
-      params: tag,
+      params: {
+        tag,
+      },
     });
   }
 }

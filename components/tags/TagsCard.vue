@@ -18,7 +18,7 @@ import { Tag } from '~/models/tag/tag.types';
 })
 export default class TagsCard extends Vue {
   @Prop(Array) tags!: Tag[];
-  @Emit('click') onClickTag(tag): Tag {
+  @Emit('click') onClickTag(tag: string): Tag {
     return tag;
   }
 }
