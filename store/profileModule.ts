@@ -9,6 +9,15 @@ import { isProfile, Profile } from '~/models/profile';
 })
 export default class ProfileModule extends VuexModule {
   @Action({ rawError: true })
+  async getProfile(username: UserName): Promise<Profile> {
+    const { profile } = await ApiProfile.getProfile(username);
+    if (isProfile(profile)) {
+      return profile;
+    }
+    throw new Error('no profile');
+  }
+
+  @Action({ rawError: true })
   async followUser(username: UserName): Promise<Profile> {
     const { profile } = await ApiProfile.followUser(username);
     if (isProfile(profile)) {
