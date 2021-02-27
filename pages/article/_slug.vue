@@ -1,5 +1,5 @@
 <template>
-  <ArticleSlug :article="article">
+  <ArticleCard :article="article">
     <template #title>
       <span class="headline font-weight-bold">{{ article.title }}</span>
     </template>
@@ -7,7 +7,7 @@
       <UserMeta :article="article" />
       <div class="d-flex align-center">
         <FollowBtn :author="article.author" />
-        <FavoriteHeart :article="article" />
+        <FavoriteHeart :article="article" @onClickFavorite="$nuxt.refresh()" />
       </div>
     </template>
     <template #articleBody>
@@ -18,6 +18,7 @@
     <template #commentSection>
       <v-list>
         <CommentEditor
+          v-if="$accessor.userModule.user"
           v-model="commentBody"
           :user="$accessor.userModule.user"
           @addComment="addComment"
@@ -25,7 +26,7 @@
         <CommentList :comments="comments" @deleteComment="deleteComment" />
       </v-list>
     </template>
-  </ArticleSlug>
+  </ArticleCard>
 </template>
 
 <script lang="ts">
@@ -38,6 +39,7 @@ import { articleModule, commentModule } from '~/utils/store-accessor';
 
 @Component({
   components: { LoginForm },
+  auth: false,
 })
 export default class ArticlePage extends Vue {
   article: Article | null = null;
