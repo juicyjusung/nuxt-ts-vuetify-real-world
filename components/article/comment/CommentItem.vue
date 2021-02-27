@@ -7,10 +7,11 @@
     <v-list-item-content>
       <v-list-item-title class="flex-row d-flex align-center">
         <div class="flex-column flex-sm-row d-flex grow">
-          <nuxt-link :to="`/profile/${comment.author.username}`">
-            <span class="font-weight-medium white--text">
-              {{ comment.author.username }}
-            </span>
+          <nuxt-link
+            :to="`/profile/${comment.author.username}`"
+            class="font-weight-medium white--text"
+          >
+            {{ comment.author.username }}
           </nuxt-link>
 
           <span class="ml-0 ml-sm-2 caption">
