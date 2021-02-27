@@ -1,16 +1,16 @@
 <template>
-  <div class="d-flex align-center">
+  <div class="align-center col-auto">
     <v-btn
-      class="ma-2"
+      class="mx-1"
       :color="article.favorited ? 'red' : 'grey'"
       text
       icon
-      :disabled="!$auth.loggedIn"
+      :disabled="!$accessor.userModule.user"
       @click="onClickFavorite({ favorited: article.favorited, slug: article.slug })"
     >
       <v-icon> mdi-heart </v-icon>
     </v-btn>
-    <span class="subheading mr-2">{{ article.favoritesCount }}</span>
+    <span class="subheading" style="overflow: auto">{{ article.favoritesCount }}</span>
   </div>
 </template>
 
@@ -26,6 +26,7 @@ import { articleModule } from '~/utils/store-accessor';
 export default class FavoriteHeart extends Vue {
   @Prop(Object) article!: Article;
 
+  @Emit('onClickFavorite')
   async onClickFavorite(options: { favorited: boolean; slug: string }): Promise<void> {
     try {
       switch (options.favorited) {
@@ -36,7 +37,6 @@ export default class FavoriteHeart extends Vue {
           await articleModule.favoriteArticle(options.slug);
           break;
       }
-      await this.$nuxt.refresh();
     } catch (e) {
       notifyErrors(e.message);
     }

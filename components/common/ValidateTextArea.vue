@@ -15,7 +15,6 @@ import { Component, Prop, Vue } from 'nuxt-property-decorator';
 import { ValidationProvider } from 'vee-validate';
 
 @Component({
-  name: 'ValidateTextArea',
   components: { ValidationProvider },
 })
 export default class ValidateTextArea extends Vue {

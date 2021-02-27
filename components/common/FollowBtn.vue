@@ -1,5 +1,5 @@
 <template>
-  <juicy-btn
+  <JuicyBtn
     :label="isFollowing ? 'UNFOLLOW' : 'FOLLOW'"
     x-small
     :color="isFollowing ? 'red' : 'primary'"
@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Emit, Prop, Vue } from 'nuxt-property-decorator';
+import { Component, Prop, Vue } from 'nuxt-property-decorator';
 import { Author } from '~/models/author';
 import { profileModule } from '~/utils/store-accessor';
 
