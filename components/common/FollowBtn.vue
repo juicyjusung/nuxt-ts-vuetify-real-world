@@ -1,5 +1,6 @@
 <template>
   <JuicyBtn
+    v-if="author.username !== $accessor.userModule.user.username"
     :label="isFollowing ? 'UNFOLLOW' : 'FOLLOW'"
     x-small
     :color="isFollowing ? 'red' : 'primary'"
