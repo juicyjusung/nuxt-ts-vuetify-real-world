@@ -2,10 +2,10 @@
   <v-container class="pa-0" style="height: 100%">
     <v-col cols="12">
       <v-card>
-        <v-card-title>
+        <v-card-title class="px-1 px-sm-4">
           <slot name="title" />
         </v-card-title>
-        <v-card-subtitle class="px-1 px-sm-2 d-flex align-center flex-column flex-sm-row">
+        <v-card-subtitle class="px-1 px-sm-4 d-flex align-center flex-column flex-sm-row">
           <slot name="articleMeta" />
         </v-card-subtitle>
         <v-card-text>
