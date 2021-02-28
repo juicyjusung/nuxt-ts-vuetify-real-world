@@ -1,7 +1,15 @@
 <template>
   <v-row>
-    <article-item v-for="(article, i) in articleList" :key="i" :article="article" />
-    <div id="scroll-observer" ref="scrollObserver" />
+    <v-col
+      v-for="(article, i) in articleList"
+      :key="i"
+      v-intersect="onIntersect"
+      :data-user="i"
+      :data-last="i === articleList.length - 1"
+      cols="12"
+    >
+      <ArticleItem :key="article.slug" :article="article" />
+    </v-col>
   </v-row>
 </template>
 
@@ -15,30 +23,20 @@ import { Article } from '~/models/article';
 })
 export default class ArticleList extends Vue {
   @Prop(Array) articleList!: Article[];
-
   @Emit('fetch') onFetch() {}
+  page = 0;
+  lastPage = 0;
+  lastTarget: HTMLElement | null = null;
 
-  scrollObserver: Element | null = null;
-
-  mounted() {
-    this.scrollObserver = this.$refs.scrollObserver as Element;
-    this.initIntersectionObserver(this.scrollObserver);
-  }
-
-  initIntersectionObserver(observer: Element) {
-    const io = new IntersectionObserver(
-      (entries, observer) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            this.$emit('fetch');
-          }
-        });
-      },
-      {
-        rootMargin: '0px 0px 400px 0px',
+  onIntersect(entries: IntersectionObserverEntry[], observer: IntersectionObserver) {
+    const entry = entries[0];
+    const target = entry.target as HTMLElement;
+    if (entry.isIntersecting && target.dataset.last) {
+      if (this.lastTarget !== target) {
+        this.onFetch();
+        this.lastTarget = target;
       }
-    );
-    io.observe(observer);
+    }
   }
 }
 </script>

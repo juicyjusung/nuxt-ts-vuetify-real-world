@@ -1,71 +1,67 @@
 <template>
   <v-container>
-    <juicy-content>
+    <HomeContentTemplate>
       <template #main>
-        <article-list
-          :article-list="$accessor.articleModule.articleList"
-          @fetch="fetchArticleList"
-        />
-        <article-loading v-if="loading" />
+        <v-tabs v-model="tab" align-with-title class="mb-2">
+          <v-tabs-slider color="yellow"></v-tabs-slider>
+          <v-tab v-for="(item, i) in tabs" :key="i" nuxt :to="item.to">{{ item.label }}</v-tab>
+          <v-tab v-if="selectedTag" ref="tagTab" nuxt :to="`/tag/${selectedTag}`">
+            #{{ selectedTag }}
+          </v-tab>
+        </v-tabs>
+        <nuxt-child />
       </template>
       <template #sider>
-        <tags-card :tags="tags" />
+        <TagsCard :tags="tags" @click="onClickTag" />
       </template>
-    </juicy-content>
-    <v-fab-transition>
-      <v-btn
-        class="md-5 mr-3 elevation-21"
-        dark
-        fab
-        button
-        right
-        color="indigo darken-3"
-        fixed
-        bottom
-        @click="top"
-      >
-        <v-icon>mdi-chevron-up</v-icon>
-      </v-btn>
-    </v-fab-transition>
+    </HomeContentTemplate>
   </v-container>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator';
-import { notifyErrors } from '~/utils/notify';
-import { articleModule, tagModule } from '~/utils/store-accessor';
+
+import { Tag } from '~/models/tag/tag.types';
+import { tagModule } from '~/utils/store-accessor';
+
+interface Tab {
+  label: string;
+  to: string;
+}
 
 @Component({
   components: {},
-  auth: 'guest',
+  auth: false,
 })
 export default class Home extends Vue {
-  observer = null;
-  loading = false;
   tags = [];
+  tabs: Tab[] = [
+    { label: 'Your Feed', to: '/myfeed' },
+    { label: 'Global Feed', to: '/' },
+  ];
+
+  tab = '/';
+  selectedTag = '';
+
   async asyncData(): Promise<void | object> {
     return {
       tags: await tagModule.getTags(),
     };
   }
 
-  async created() {
-    await this.fetchArticleList();
+  created() {
+    const { tag } = this.$nuxt.context.params;
+    this.selectedTag = tag ?? '';
   }
 
-  async fetchArticleList() {
-    this.loading = true;
-    try {
-      await articleModule.getArticleList();
-    } catch (e) {
-      notifyErrors(e.message);
-    }
-
-    this.loading = false;
-  }
-
-  top() {
-    window.scrollTo(0, 0);
+  onClickTag(tag: Tag) {
+    this.selectedTag = tag;
+    this.$router.push({
+      path: `/tag/${tag}`,
+      params: {
+        tag,
+      },
+    });
   }
 }
 </script>

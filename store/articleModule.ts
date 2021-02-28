@@ -1,10 +1,14 @@
 import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators';
-import { ApiArticle, ReqArticleList } from '~/api/article';
+import { ApiArticle, ReqArticleList, ReqFeedArticleList } from '~/api/article';
 import { Article, isArticle } from '~/models/article';
 import { isArrayOf, OptionalPick } from '~/types/index';
 import { $axios } from '~/utils/axios';
 import { notifyErrors } from '~/utils/notify';
 import { articleModule } from '~/utils/store-accessor';
+
+interface ArticleListType {
+  type?: 'global' | 'profilePosts' | 'profileFavoritedPosts';
+}
 
 export type ReqCreateArticle = Pick<Article, 'title' | 'description' | 'body'> &
   OptionalPick<Article, 'tagList'>;
@@ -15,9 +19,6 @@ export type UpdateArticleRequest = {
   payload: UpdateArticlePayload;
   slug: Slug;
 };
-export type GetArticleRequest = {
-  slug: Slug;
-};
 
 @Module({
   name: 'articleModule',
@@ -26,6 +27,7 @@ export type GetArticleRequest = {
 })
 export default class ArticleModule extends VuexModule {
   articleList: Article[] = [];
+  articleListType: ArticleListType | null = null;
   articleOffset: number = 0;
   articleCount: number = 0;
 
@@ -40,6 +42,16 @@ export default class ArticleModule extends VuexModule {
   }
 
   @Mutation
+  setArticleOffset(offset: number) {
+    this.articleOffset = offset;
+  }
+
+  @Mutation
+  setArticleLisType(type: ArticleListType) {
+    this.articleListType = type;
+  }
+
+  @Mutation
   updateArticleInArticleList(updatedArticle: Article) {
     const index = this.articleList.findIndex(article => article.slug === updatedArticle.slug);
     this.articleList = [
@@ -50,16 +62,40 @@ export default class ArticleModule extends VuexModule {
   }
 
   @Action({ rawError: true })
-  async getArticleList(request?: ReqArticleList) {
+  async initArticleList(): Promise<void> {
+    this.setArticleList([]);
+    this.setArticleOffset(0);
+  }
+
+  @Action({ rawError: true })
+  async getArticleList(payload?: ReqArticleList) {
     const prevSlugs = this.articleList.map(article => article.slug);
     const { articles } = await ApiArticle.getArticleList({
       offset: this.articleOffset || 0,
       limit: 20,
-      ...request,
+      ...payload,
     });
     if (isArrayOf<Article>(articles, isArticle)) {
       const filtered = articles.filter(article => !prevSlugs.includes(article.slug));
       this.setArticleList([...this.articleList, ...filtered]);
+      this.setArticleOffset(this.articleList.length);
+      return;
+    }
+    throw new Error('no articles');
+  }
+
+  @Action({ rawError: true })
+  async getFeedArticleList(payload?: ReqFeedArticleList) {
+    const prevSlugs = this.articleList.map(article => article.slug);
+    const { articles } = await ApiArticle.getFeedArticleList({
+      limit: 20,
+      offset: this.articleOffset || 0,
+      ...payload,
+    });
+    if (isArrayOf<Article>(articles, isArticle)) {
+      const filtered = articles.filter(article => !prevSlugs.includes(article.slug));
+      this.setArticleList([...this.articleList, ...filtered]);
+      this.setArticleOffset(this.articleList.length);
       return;
     }
     throw new Error('no articles');

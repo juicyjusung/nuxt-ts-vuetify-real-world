@@ -4,26 +4,20 @@
       <notifications position="bottom center" />
     </client-only>
     <v-app-bar app class="px-1 px-sm-5 justify-center align-center">
-      <nuxt-link to="/">
-        <v-btn text small class="px-0">conduit</v-btn>
-      </nuxt-link>
+      <JuicyBtn class="px-0" text label="conduit" x-large @click="$router.push('/')"></JuicyBtn>
       <v-spacer />
-      <div v-if="!$accessor.userModule.user">
-        <nuxt-link to="/login">
-          <juicy-btn label="Sign in" icon="mdi-account-arrow-left" small />
-        </nuxt-link>
-        <nuxt-link to="/signup">
-          <juicy-btn label="Sign up" icon="mdi-account-plus-outline" small />
-        </nuxt-link>
+      <div v-if="!$accessor.userModule.user" class="row justify-end">
+        <JuicyBtn label="Sign in" icon="mdi-account-arrow-left" small to="/login" />
+        <JuicyBtn label="Sign up" icon="mdi-account-plus-outline" small to="/signup" />
       </div>
       <div v-else class="d-flex">
-        <juicy-btn
-          label="new article"
+        <JuicyBtn
+          :label="$vuetify.breakpoint.mobile ? 'new' : 'new article'"
           icon="mdi-pencil-plus"
           icon-pos="left"
           small
           @click="newArticleDialog = true"
-        ></juicy-btn>
+        />
         <v-menu open-on-hover bottom offset-y>
           <template #activator="{ on, attrs }">
             <v-btn color="primary" v-bind="attrs" small v-on="on">
@@ -46,8 +40,23 @@
     </v-app-bar>
     <v-main>
       <nuxt />
+      <v-fab-transition>
+        <v-btn
+          class="md-5 mr-3 elevation-21"
+          dark
+          fab
+          button
+          right
+          color="indigo darken-3"
+          fixed
+          bottom
+          @click="goToTop"
+        >
+          <v-icon>mdi-chevron-up</v-icon>
+        </v-btn>
+      </v-fab-transition>
     </v-main>
-    <editor-dialog :activate="newArticleDialog" @close="newArticleDialog = false" />
+    <EditorDialog :activate="newArticleDialog" @close="newArticleDialog = false" />
   </v-app>
 </template>
 
@@ -71,6 +80,10 @@ export default class DefaultLayout extends Vue {
   async onClickLogout() {
     await this.$auth.logout();
     notifySuccess('Logged Out!');
+  }
+
+  goToTop() {
+    this.$vuetify.goTo(0);
   }
 }
 </script>

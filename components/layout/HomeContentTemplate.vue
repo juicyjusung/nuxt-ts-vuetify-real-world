@@ -17,7 +17,7 @@
 import { Component, Vue } from 'nuxt-property-decorator';
 
 @Component({
-  name: 'JuicyContent',
+  components: {},
 })
-export default class JuicyContent extends Vue {}
+export default class HomeContentTemplate extends Vue {}
 </script>

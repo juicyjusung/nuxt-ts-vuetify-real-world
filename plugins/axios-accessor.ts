@@ -22,47 +22,32 @@ const accessor: Plugin = ({ $axios, redirect, app }: Context) => {
     if (!error.response) {
       return;
     }
+
     const httpStatus = error.response.status;
-    const errorMessage = Object.entries(error.response.data.errors).reduce((acc, cur) => {
-      const parsed = (cur[1] as string[]).map(v => `${cur[0]} ${v}`).join('\n');
-      acc.push(parsed);
-      return acc;
-    }, [] as string[]);
-    const isUnknownError = errorMessage?.[0].startsWith('Unknown');
+
+    const errorMessage = '';
 
     switch (httpStatus) {
       case ErrorType.Unauthorized:
         userModule.setUser(null);
-        redirect('/login');
         notifyWarn('You are not logged in');
+        redirect('/login');
         break;
       case ErrorType.Unprocessable:
         notifyErrors(errorMessage);
         break;
       case ErrorType.Forbidden:
         app?.router?.back();
-        notifyErrors(
-          errorMessage?.length > 0 && !isUnknownError
-            ? errorMessage
-            : ['Access to this resource is forbidden']
-        );
+        notifyErrors('Access to this resource is forbidden');
         break;
       case ErrorType.NotFound:
-        notifyErrors(
-          errorMessage?.length > 0 && !isUnknownError
-            ? errorMessage
-            : ['Requested resource was not found.']
-        );
+        notifyErrors('Requested resource was not found.');
         break;
       default:
-        notifyErrors(
-          errorMessage?.length > 0
-            ? errorMessage
-            : ['Unknown error occurred, please try again later.']
-        );
+        notifyErrors('Unknown error occurred, please try again later.');
         return Promise.reject(errorMessage);
     }
-    return Promise.resolve();
+    // return Promise.resolve();
   });
   initializeAxios($axios);
 };

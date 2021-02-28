@@ -1,5 +1,5 @@
 <template>
-  <v-container v-if="article">
+  <v-container class="pa-0" style="height: 100%">
     <v-col cols="12">
       <v-card>
         <v-card-title>

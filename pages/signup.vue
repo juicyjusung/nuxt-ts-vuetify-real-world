@@ -1,7 +1,7 @@
 <template>
   <v-container fluid class="fill-height">
-    <v-row justify="center" align="center">
-      <v-card elevation="2" outlined class="pa-3" min-width="400">
+    <v-row justify="center" align="center" class="pa-3">
+      <v-card elevation="2" outlined class="pa-3 col" max-width="400px">
         <v-card-title> signup </v-card-title>
         <v-card-text>
           <signup-form />

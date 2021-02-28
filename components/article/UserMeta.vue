@@ -1,5 +1,5 @@
 <template>
-  <v-list-item class="px-1">
+  <v-list-item class="px-0">
     <v-list-item-avatar color="grey darken-3">
       <v-img
         v-if="article.author.image"
@@ -11,10 +11,8 @@
     </v-list-item-avatar>
     <v-list-item-content>
       <v-list-item-title>
-        <nuxt-link :to="`/profile/${article.author.username}`">
-          <span class="white--text">
-            {{ article.author.username }}
-          </span>
+        <nuxt-link :to="`/profile/${article.author.username}`" class="white--text">
+          {{ article.author.username }}
         </nuxt-link>
       </v-list-item-title>
       <v-list-item-title>{{ article.createdAt | timeFormat }}</v-list-item-title>

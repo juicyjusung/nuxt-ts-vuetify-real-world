@@ -18,7 +18,7 @@
       </v-list-item-subtitle>
       <v-list-item-subtitle class="d-flex ma-2">
         <v-spacer />
-        <juicy-btn label="Add Comment" small @click="addComment"></juicy-btn>
+        <JuicyBtn label="Add Comment" small @click="addComment"></JuicyBtn>
       </v-list-item-subtitle>
     </v-list-item-content>
   </v-list-item>
