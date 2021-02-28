@@ -5,13 +5,11 @@
     </template>
     <template #articleMeta>
       <UserMeta :article="article" />
-      <div class="d-flex align-center">
-        <FollowBtn :author="article.author" />
-        <FavoriteHeart :article="article" @onClickFavorite="$nuxt.refresh()" />
-      </div>
+      <FollowBtn :author="article.author" />
+      <FavoriteHeart :article="article" @onClickFavorite="$nuxt.refresh()" />
     </template>
     <template #articleBody>
-      <div class="grey darken-5 black--text py-5" style="min-height: 500px">
+      <div class="grey darken-5 black--text pa-4" style="min-height: 500px">
         {{ article.body }}
       </div>
     </template>
