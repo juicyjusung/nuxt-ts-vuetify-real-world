@@ -8,3 +8,7 @@ export interface User {
   updatedAt: string;
   username: string;
 }
+
+export function isUser(obj: unknown): obj is User {
+  return obj != null && typeof (obj as User).id === 'number';
+}

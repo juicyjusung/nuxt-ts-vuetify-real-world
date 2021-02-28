@@ -1,6 +1,6 @@
 import { Action, Module, Mutation, VuexModule } from 'vuex-module-decorators';
-import { User } from '~/models/user';
-import { $axios } from '~/utils/axios';
+import { ApiUser } from '~/api/user';
+import { isUser, User } from '~/models/user';
 
 export type ReqUserLogin = Pick<User, 'email'> & { password: string };
 export type ReqSignup = Pick<User, 'email' | 'username'> & { password: string };
@@ -26,9 +26,8 @@ export default class UserModule extends VuexModule {
   @Action({ rawError: true })
   async signup(payload: ReqSignup): Promise<User | boolean> {
     try {
-      const res = await $axios.post('/users', { user: payload });
-      const user = res?.data?.user as User;
-      if (user) {
+      const { user } = await ApiUser.signup(payload);
+      if (isUser(user)) {
         return user;
       }
       return false;
