@@ -29,7 +29,7 @@ import { Article } from '~/models/article';
 @Component({
   components: {},
 })
-export default class ArticleTemplate extends Vue {
+export default class ArticleItemTemplate extends Vue {
   @Prop(Object) article!: Article;
 }
 </script>

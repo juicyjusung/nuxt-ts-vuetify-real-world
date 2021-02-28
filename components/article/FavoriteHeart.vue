@@ -1,5 +1,5 @@
 <template>
-  <div class="align-center col-auto">
+  <div class="align-center col-auto row">
     <v-btn
       class="mx-1"
       :color="article.favorited ? 'red' : 'grey'"

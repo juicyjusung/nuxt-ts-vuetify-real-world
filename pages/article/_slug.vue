@@ -1,17 +1,15 @@
 <template>
-  <ArticleCard :article="article">
+  <ArticleDetailTemplate :article="article">
     <template #title>
       <span class="headline font-weight-bold">{{ article.title }}</span>
     </template>
     <template #articleMeta>
       <UserMeta :article="article" />
-      <div class="d-flex align-center">
-        <FollowBtn :author="article.author" />
-        <FavoriteHeart :article="article" @onClickFavorite="$nuxt.refresh()" />
-      </div>
+      <FollowBtn :author="article.author" />
+      <FavoriteHeart :article="article" @onClickFavorite="$nuxt.refresh()" />
     </template>
     <template #articleBody>
-      <div class="grey darken-5 black--text py-5" style="min-height: 500px">
+      <div class="grey darken-5 black--text pa-4" style="min-height: 500px">
         {{ article.body }}
       </div>
     </template>
@@ -26,19 +24,18 @@
         <CommentList :comments="comments" @deleteComment="deleteComment" />
       </v-list>
     </template>
-  </ArticleCard>
+  </ArticleDetailTemplate>
 </template>
 
 <script lang="ts">
 import { Context } from '@nuxt/types';
 import { Component, Vue } from 'nuxt-property-decorator';
-import LoginForm from '~/components/user/loginForm.vue';
 import { Article } from '~/models/article';
 import { Comment } from '~/models/comment';
 import { articleModule, commentModule } from '~/utils/store-accessor';
 
 @Component({
-  components: { LoginForm },
+  components: {},
   auth: false,
 })
 export default class ArticlePage extends Vue {

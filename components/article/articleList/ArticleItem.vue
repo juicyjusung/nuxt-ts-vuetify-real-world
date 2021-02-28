@@ -1,5 +1,5 @@
 <template>
-  <ArticleTemplate>
+  <ArticleItemTemplate>
     <template #article-header>
       <UserMeta :article="article" />
       <FavoriteHeart :article="article" />
@@ -18,7 +18,7 @@
     <template #article-actions>
       <v-btn text nuxt :to="`/article/${article.slug}`">read more</v-btn>
     </template>
-  </ArticleTemplate>
+  </ArticleItemTemplate>
 </template>
 
 <script lang="ts">
