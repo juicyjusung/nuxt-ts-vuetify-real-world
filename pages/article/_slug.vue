@@ -1,5 +1,5 @@
 <template>
-  <ArticleCard :article="article">
+  <ArticleDetailTemplate :article="article">
     <template #title>
       <span class="headline font-weight-bold">{{ article.title }}</span>
     </template>
@@ -24,19 +24,18 @@
         <CommentList :comments="comments" @deleteComment="deleteComment" />
       </v-list>
     </template>
-  </ArticleCard>
+  </ArticleDetailTemplate>
 </template>
 
 <script lang="ts">
 import { Context } from '@nuxt/types';
 import { Component, Vue } from 'nuxt-property-decorator';
-import LoginForm from '~/components/user/loginForm.vue';
 import { Article } from '~/models/article';
 import { Comment } from '~/models/comment';
 import { articleModule, commentModule } from '~/utils/store-accessor';
 
 @Component({
-  components: { LoginForm },
+  components: {},
   auth: false,
 })
 export default class ArticlePage extends Vue {

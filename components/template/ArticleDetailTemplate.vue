@@ -26,7 +26,7 @@ import { Article } from '~/models/article';
 @Component({
   components: {},
 })
-export default class ArticleCard extends Vue {
+export default class ArticleDetailTemplate extends Vue {
   @Prop(Object) article!: Article;
 }
 </script>
