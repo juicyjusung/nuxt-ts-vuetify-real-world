@@ -5,11 +5,8 @@ import { userModule } from '~/store';
 export default class AuthJWTScheme extends LocalScheme {
   async login(endpoint: HTTPRequest): Promise<any> {
     try {
-      const { user }: any = await this.$auth.requestWith(
-        this.name,
-        endpoint,
-        this.options.endpoints.login
-      );
+      const payload = endpoint.data.user;
+      const user = await userModule.login(payload);
       await this.$auth.setUserToken(`Token ${user.token}`);
       return user;
     } catch (error) {
