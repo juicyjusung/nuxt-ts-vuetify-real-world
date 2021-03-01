@@ -63,6 +63,7 @@
 <script lang="ts">
 import { Component, Vue } from 'nuxt-property-decorator';
 import { notifySuccess } from '~/utils/notify';
+import { userModule } from '~/utils/store-accessor';
 
 @Component({
   components: {},
@@ -71,11 +72,18 @@ export default class DefaultLayout extends Vue {
   newArticleDialog = false;
 
   items = [
+    { title: 'my profile', icon: 'mdi-account', onClick: this.onClickMyProfile },
     { title: 'settings', icon: 'mdi-account-settings', onClick: this.onClickSettings },
     { title: 'logout', icon: 'mdi-logout', onClick: this.onClickLogout },
   ];
 
-  async onClickSettings() {}
+  onClickMyProfile() {
+    this.$router.push(`/profile/${userModule.user?.username}`);
+  }
+
+  onClickSettings() {
+    this.$router.push('/settings');
+  }
 
   async onClickLogout() {
     await this.$auth.logout();

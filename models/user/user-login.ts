@@ -1,5 +1,5 @@
 import { plainToClass } from 'class-transformer';
-import { ReqUserLogin } from '~/store/userModule';
+import { ReqUserLogin } from '~/api/user';
 
 export class UserLoginForm implements ReqUserLogin {
   email = '';

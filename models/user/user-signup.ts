@@ -1,6 +1,6 @@
 import { plainToClass } from 'class-transformer';
+import { ReqSignup } from '~/api/user';
 import { UserLoginForm } from '~/models/user/user-login';
-import { ReqSignup } from '~/store/userModule';
 
 export class UserSignupForm implements ReqSignup {
   email = '';
