@@ -4,7 +4,7 @@
 
 ### Project demo is available at https://nuxt-ts-vuetify-real-world-app.vercel.app/
 
-This codebase was created to demonstrate a fully fledged fullstack application built with **Vue3** including CRUD operations, authentication, routing, pagination, and more.
+This codebase was created to demonstrate a fully fledged fullstack application built with **Nuxt(ts)** including CRUD operations, authentication, routing and more.
 
 We've gone to great lengths to adhere to the **Vue3** community styleguides & best practices.
 
