@@ -1,43 +1,58 @@
-# juicy-nuxt-boilerplate
+# ![nuxt-ts-vuetify-realworld (4)](https://user-images.githubusercontent.com/46892438/109449222-39945f80-7a8b-11eb-8c27-5927f8a58e5a.png)
 
-## Project Description
+> Vue.js codebase(typescript) containing real world examples (CRUD, auth, advanced patterns, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld) spec and API (without styles).
 
-![localhost_8000_ (1)](https://user-images.githubusercontent.com/46892438/104125880-d34d6380-539c-11eb-93de-30638c0ca6e9.png)
+### Project demo is available at https://nuxt-ts-vuetify-real-world-app.vercel.app/
 
+This codebase was created to demonstrate a fully fledged fullstack application built with **Vue3** including CRUD operations, authentication, routing, pagination, and more.
 
+We've gone to great lengths to adhere to the **Vue3** community styleguides & best practices.
 
-nuxt(typesciprt) practice 및 boilerplate
+For more information on how to this works with other frontends/backends, head over to the [RealWorld](https://github.com/gothinkster/realworld) repo.
 
+## Getting started
 
-- [x] typescript
-- [x] vuetify
-
-- [x] jest
-- [x] linter => eslint, prettier - husky pre-commit hook
-- [x] commitlint 
-- [x] github actions ci
-- [x] dependabot
-- [ ] dockerize
-- [ ] demo
-
-## Build Setup
+Clone the app:
 
 ```bash
-# install dependencies
-$ npm install
-
-# serve with hot reload at localhost:3000
-$ npm run dev
-
-# build for production and launch server
-$ npm run build
-$ npm run start
-
-# generate static project
-$ npm run generate
+git clone https://github.com/juicyjusung/nuxt-ts-vuetify-real-world
 ```
 
-### env (.env)
-```bash .env
-BASE_URL={{base_url}}
+Go to app's directory:
+```bash
+cd nuxt-ts-vuetify-real-world
 ```
+
+Install dependencies:
+``` bash
+npm install
+```
+
+Run it:
+```
+# for dev
+npm run dev
+
+# build for production
+npm run build
+npm start
+
+# generate static
+npm run generate
+
+```
+
+## Functionality overview
+The example application is a social blogging site (i.e. a Medium.com clone) called "Conduit". It uses a custom API for all requests, including authentication. You can view a live demo over at https://nuxt-ts-vuetify-real-world-app.vercel.app/
+
+**General functionality:**
+
+- **Responsive web**
+- **Vuetify style**
+- Authenticate users via JWT
+- CRU* users (sign up & settings page - no deleting required)
+- CRUD Articles
+- CR*D Comments on articles (no updating required)
+- GET and display lists of articles with **infinite scrolling**
+- Favorite articles
+- Follow other users
