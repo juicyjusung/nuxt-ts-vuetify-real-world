@@ -4,11 +4,23 @@
       <template #progress>
         <v-progress-linear color="deep-purple" height="5" indeterminate></v-progress-linear>
       </template>
-      <v-card-title class="white--text py-8">
-        <v-avatar size="56">
+      <v-card-title class="white--text py-8 align-center justify-center flex-column">
+        <v-avatar size="64" class="flex">
           <img alt="user" :src="profile.image" />
         </v-avatar>
-        <p class="ml-3">{{ profile.username }}</p>
+        <span class="my-4">{{ profile.username }}</span>
+        <span class="caption">{{ profile.bio }}</span>
+        <JuicyBtn
+          v-if="
+            $accessor.userModule.isLoggedIn &&
+            profile.username === $accessor.userModule.user.username
+          "
+          label="Edit Profile Settings"
+          small
+          class="align-self-end"
+          icon="mdi-account-settings"
+          @click="$router.push('/settings')"
+        />
       </v-card-title>
       <v-tabs v-model="tab" align-with-title>
         <v-tabs-slider color="yellow"></v-tabs-slider>
