@@ -1,9 +1,9 @@
 <template>
-  <v-app dark>
+  <v-app dark :style="{ background: $vuetify.theme.themes[theme].background }">
     <client-only>
       <notifications position="bottom center" />
     </client-only>
-    <v-app-bar app class="px-1 px-sm-5 justify-center align-center">
+    <v-app-bar app class="px-1 px-sm-5 align-center" flat outlined>
       <JuicyBtn class="px-0" text label="conduit" x-large @click="$router.push('/')"></JuicyBtn>
       <v-spacer />
       <div v-if="!$accessor.userModule.user" class="row justify-end">
@@ -33,6 +33,9 @@
                 </v-icon>
               </v-list-item-icon>
               <v-list-item-title> {{ item.title }}</v-list-item-title>
+            </v-list-item>
+            <v-list-item>
+              <v-switch v-model="$vuetify.theme.dark" label="Dark mode"></v-switch>
             </v-list-item>
           </v-list>
         </v-menu>
@@ -76,6 +79,10 @@ export default class DefaultLayout extends Vue {
     { title: 'settings', icon: 'mdi-account-settings', onClick: this.onClickSettings },
     { title: 'logout', icon: 'mdi-logout', onClick: this.onClickLogout },
   ];
+
+  get theme() {
+    return this.$vuetify.theme.dark ? 'dark' : 'light';
+  }
 
   onClickMyProfile() {
     this.$router.push(`/profile/${userModule.user?.username}`);

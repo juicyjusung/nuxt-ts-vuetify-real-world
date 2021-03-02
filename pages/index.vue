@@ -2,8 +2,8 @@
   <v-container>
     <HomeContentTemplate>
       <template #main>
-        <v-tabs v-model="tab" align-with-title class="mb-2">
-          <v-tabs-slider color="yellow"></v-tabs-slider>
+        <v-tabs v-model="tab" align-with-title class="mb-2 v-sheet--outlined">
+          <v-tabs-slider color="accent"></v-tabs-slider>
           <v-tab v-for="(item, i) in tabs" :key="i" nuxt :to="item.to">{{ item.label }}</v-tab>
           <v-tab v-if="selectedTag" ref="tagTab" nuxt :to="`/tag/${selectedTag}`">
             #{{ selectedTag }}

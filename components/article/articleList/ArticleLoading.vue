@@ -2,7 +2,7 @@
   <v-row>
     <v-col>
       <v-hover v-slot="{ hover }">
-        <v-card :elevation="hover ? 12 : 2">
+        <v-card :elevation="hover ? 2 : 0" flat outlined>
           <v-skeleton-loader
             class="mx-auto"
             type="list-item-avatar, card-heading, list-item-two-line, actions@1"

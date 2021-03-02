@@ -9,7 +9,7 @@
       <FavoriteHeart :article="article" @onClickFavorite="$nuxt.refresh()" />
     </template>
     <template #articleBody>
-      <div class="grey darken-5 black--text pa-4" style="min-height: 500px">
+      <div class="text--primary pa-4" style="min-height: 500px; background-color: #e2dfd8">
         {{ article.body }}
       </div>
     </template>

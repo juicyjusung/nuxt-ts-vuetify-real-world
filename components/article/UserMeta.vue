@@ -11,7 +11,7 @@
     </v-list-item-avatar>
     <v-list-item-content>
       <v-list-item-title>
-        <nuxt-link :to="`/profile/${article.author.username}`" class="white--text">
+        <nuxt-link :to="`/profile/${article.author.username}`" class="text--primary">
           {{ article.author.username }}
         </nuxt-link>
       </v-list-item-title>
