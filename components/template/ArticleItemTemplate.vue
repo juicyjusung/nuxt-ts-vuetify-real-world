@@ -1,6 +1,6 @@
 <template>
   <v-hover v-slot="{ hover }">
-    <v-card :elevation="hover ? 12 : 2">
+    <v-card :elevation="hover ? 2 : 0" flat outlined>
       <v-card-title class="pa-1">
         <v-list-item class="grow">
           <slot name="article-header" />

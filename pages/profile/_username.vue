@@ -1,6 +1,6 @@
 <template>
-  <v-container class="pa-0" style="height: 100%">
-    <v-card style="height: 100%; background-color: #7f7f7f" class="rounded-0">
+  <v-container class="pa-0 py-4" style="height: 100%">
+    <v-card style="height: 100%" class="rounded-0">
       <template #progress>
         <v-progress-linear color="deep-purple" height="5" indeterminate></v-progress-linear>
       </template>
@@ -8,8 +8,8 @@
         <v-avatar size="64" class="flex">
           <img alt="user" :src="profile.image" />
         </v-avatar>
-        <span class="my-4">{{ profile.username }}</span>
-        <span class="caption">{{ profile.bio }}</span>
+        <span class="my-4 text--primary">{{ profile.username }}</span>
+        <span class="caption text--primary">{{ profile.bio }}</span>
         <JuicyBtn
           v-if="
             $accessor.userModule.isLoggedIn &&
@@ -22,8 +22,8 @@
           @click="$router.push('/settings')"
         />
       </v-card-title>
-      <v-tabs v-model="tab" align-with-title>
-        <v-tabs-slider color="yellow"></v-tabs-slider>
+      <v-tabs v-model="tab" align-with-title class="mb-4">
+        <v-tabs-slider color="accent"></v-tabs-slider>
         <v-tab nuxt :to="`/profile/${username}`">My Posts</v-tab>
         <v-tab nuxt :to="`/profile/${username}/favorites`">Favorited Posts</v-tab>
       </v-tabs>

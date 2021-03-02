@@ -1,12 +1,14 @@
 <template>
-  <v-card>
-    <v-card-title>tags</v-card-title>
-    <v-card-text>
-      <v-chip v-for="(item, i) in tags" :key="i" class="ma-1" small @click="onClickTag(item)">
-        {{ item }}
-      </v-chip>
-    </v-card-text>
-  </v-card>
+  <v-hover v-slot="{ hover }">
+    <v-card :elevation="hover ? 2 : 0" flat outlined>
+      <v-card-title class="justify-center">tags</v-card-title>
+      <v-card-text>
+        <v-chip v-for="(item, i) in tags" :key="i" class="ma-1" small @click="onClickTag(item)">
+          {{ item }}
+        </v-chip>
+      </v-card-text>
+    </v-card>
+  </v-hover>
 </template>
 
 <script lang="ts">

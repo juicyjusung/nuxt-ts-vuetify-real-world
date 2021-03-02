@@ -9,7 +9,7 @@
         <div class="flex-column flex-sm-row d-flex grow">
           <nuxt-link
             :to="`/profile/${comment.author.username}`"
-            class="font-weight-medium white--text"
+            class="font-weight-medium text--primary"
           >
             {{ comment.author.username }}
           </nuxt-link>
