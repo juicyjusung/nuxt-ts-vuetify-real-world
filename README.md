@@ -1,5 +1,8 @@
 # ![nuxt-ts-vuetify-realworld (4)](https://user-images.githubusercontent.com/46892438/109449222-39945f80-7a8b-11eb-8c27-5927f8a58e5a.png)
 
+![Vercel](https://therealsujitk-vercel-badge.vercel.app/?app=nuxt-ts-vuetify-real-world-app)
+
+
 > Nuxt.js codebase(typescript, class-component) containing real world examples (CRUD, auth, advanced patterns, etc) that adheres to the [RealWorld](https://github.com/gothinkster/realworld) spec and API (without styles).
 
 ### Project demo is available at https://nuxt-ts-vuetify-real-world-app.vercel.app/
