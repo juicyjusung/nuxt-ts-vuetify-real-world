@@ -1,10 +1,7 @@
-import { Article } from '~/models/article';
 import { Profile } from '~/models/profile';
 import { User } from '~/models/user';
 import { ResponseType } from '~/types';
 import { $axios } from '~/utils/axios';
-
-export type ResArticle = Promise<{ article: Article }>;
 
 export type UserName = User['username'];
 export type ProfileResponse = ResponseType<'profile', Profile>;
